@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -rf install*
+rm -rf .install*
 
 system_update () {
 sudo timedatectl set-timezone Asia/Manila
