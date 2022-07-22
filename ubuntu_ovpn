@@ -1138,7 +1138,7 @@ if [[ $(lsb_release -rs) == "18"* ]]; then
 	   systemctl enable stunnel4
 	   systemctl enable openvpn	   
 	   install_cron21
-	   install_sudo()	   
+	   install_sudo
 	   reboot
       
 elif [[ $(lsb_release -rs) == "20"* ]]; then
@@ -1155,7 +1155,7 @@ elif [[ $(lsb_release -rs) == "20"* ]]; then
 	   systemctl enable stunnel4
 	   systemctl enable openvpn	   
 	   install_cron21	   
-	   install_sudo()
+	   install_sudo
 	   reboot
 
 elif [[ $(lsb_release -rs) == "21"* ]]; then
@@ -1172,7 +1172,7 @@ elif [[ $(lsb_release -rs) == "21"* ]]; then
 	   systemctl enable stunnel4
 	   systemctl enable openvpn	   
 	   install_cron21	   
-	   install_sudo()
+	   install_sudo
 	   reboot
 	   
 elif [[ $(lsb_release -rs) == "22"* ]]; then
@@ -1189,7 +1189,7 @@ elif [[ $(lsb_release -rs) == "22"* ]]; then
 	   systemctl enable stunnel4
 	   systemctl enable openvpn
 	   install_cron21
-	   install_sudo()
+	   install_sudo
 	   reboot
 	   
 else 
