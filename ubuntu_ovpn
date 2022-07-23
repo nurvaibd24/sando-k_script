@@ -848,7 +848,7 @@ dev tun
 ca /etc/openvpn/server/ca.crt
 cert /etc/openvpn/server/server.crt
 key /etc/openvpn/server/server.key
-dh /etc/openvpn/server/dh.pem
+dh none
 topology subnet
 server 10.8.0.0 255.255.0.0
 push "redirect-gateway def1 bypass-dhcp"
@@ -856,13 +856,13 @@ ifconfig-pool-persist ipp.txt
 push "dhcp-option DNS 8.8.8.8"
 push "dhcp-option DNS 8.8.4.4"
 keepalive 10 120
-cipher AES-256-CBC
+cipher none
 persist-key
 persist-tun
 verb 3
-script-security 2
-comp-lzo
-status /var/www/html/tcpstatus.txt
+script-security 3
+log /etc/openvpn/server/tcpserver.log
+status /etc/openvpn/server/tcpclient.log
 verify-client-cert none 
 username-as-common-name 
 auth-user-pass-verify "/etc/openvpn/server/auth_vpn" via-file
@@ -875,7 +875,7 @@ dev tun
 ca ca.crt
 cert server.crt
 key server.key
-dh dh.pem
+dh none
 topology subnet
 server 10.9.0.0 255.255.0.0
 push "redirect-gateway def1 bypass-dhcp"
@@ -883,13 +883,13 @@ ifconfig-pool-persist ipp.txt
 push "dhcp-option DNS 8.8.8.8"
 push "dhcp-option DNS 8.8.4.4"
 keepalive 10 120
-cipher AES-256-CBC
+cipher none
 persist-key
 persist-tun
 verb 3
-comp-lzo
-script-security 2
-status /var/www/html/udpstatus.txt
+script-security 3
+log /etc/openvpn/server/udpserver.log
+status /etc/openvpn/server/udpclient.log
 verify-client-cert none 
 username-as-common-name
 auth-user-pass-verify auth_vpn via-file
