@@ -1,5 +1,3 @@
-#!/bin/bash
-rm -rf .install*
 
 system_update () {
 sudo timedatectl set-timezone Asia/Manila
@@ -905,15 +903,20 @@ client-disconnect /etc/openvpn/server/disconnect.sh' > /etc/openvpn/server/serve
 username=`head -n1 $1 | tail -1`   
 password=`head -n2 $1 | tail -1`
 
-HOST='50.116.18.242'
-USER='loveyoun_developer'
-PASS='@@@developer'
-DB='loveyoun_developer'
+HOST='DBHOST'
+USER='DBUSER'
+PASS='DBPASS'
+DB='DBNAME'
 
 Query="SELECT user_name FROM users WHERE user_name='$username' AND auth_vpn=md5('$password') AND is_freeze='0' AND duration > 0"
 user_name=`mysql -u $USER -p$PASS -D $DB -h $HOST -sN -e "$Query"`
 [ "$user_name" != '' ] && [ "$user_name" = "$username" ] && echo "user : $username" && echo 'authentication ok.' && exit 0 || echo 'authentication failed.'; exit 1
 EOM
+
+sed -i "s|DBHOST|$HOST|g" /etc/openvpn/server/auth_vpn
+sed -i "s|DBUSER|$USER|g" /etc/openvpn/server/auth_vpn
+sed -i "s|DBPASS|$PASS|g" /etc/openvpn/server/auth_vpn
+sed -i "s|DBNAME|$DBNAME|g" /etc/openvpn/server/auth_vpn
 
 cat << EOF > /etc/openvpn/server/ca.crt
 -----BEGIN CERTIFICATE-----
@@ -1033,10 +1036,10 @@ EOF
 cat << "EOM" > /etc/openvpn/server/connect.sh
 #!/bin/bash
 
-HOST='50.116.18.242'
-USER='loveyoun_developer'
-PASS='@@@developer'
-DB='loveyoun_developer'
+HOST='DBHOST'
+USER='DBUSER'
+PASS='DBPASS'
+DB='DBNAME'
 
 ##set status online to user connected
 server_ip=$(curl -s https://api.ipify.org)
@@ -1044,16 +1047,28 @@ datenow=`date +"%Y-%m-%d %T"`
 mysql -u $USER -p$PASS -D $DB -h $HOST -e "UPDATE users SET is_connected='1', device_connected='1', active_address='$server_ip', active_date='$datenow' WHERE user_name='$common_name' "
 EOM
 
+sed -i "s|DBHOST|$HOST|g" /etc/openvpn/server/connect.sh
+sed -i "s|DBUSER|$USER|g" /etc/openvpn/server/connect.sh
+sed -i "s|DBPASS|$PASS|g" /etc/openvpn/server/connect.sh
+sed -i "s|DBNAME|$DBNAME|g" /etc/openvpn/server/connect.sh
+
+
 cat << "EOM" > /etc/openvpn/server/disconnect.sh
 #!/bin/bash
 
-HOST='50.116.18.242'
-USER='loveyoun_developer'
-PASS='@@@developer'
-DB='loveyoun_developer'
+HOST='DBHOST'
+USER='DBUSER'
+PASS='DBPASS'
+DB='DBNAME'
 
 mysql -u $USER -p$PASS -D $DB -h $HOST -e "UPDATE users SET is_connected='0', active_address='', active_date='' WHERE user_name='$common_name' "
 EOM
+
+sed -i "s|DBHOST|$HOST|g" /etc/openvpn/server/disconnect.sh
+sed -i "s|DBUSER|$USER|g" /etc/openvpn/server/disconnect.sh
+sed -i "s|DBPASS|$PASS|g" /etc/openvpn/server/disconnect.sh
+sed -i "s|DBNAME|$DBNAME|g" /etc/openvpn/server/disconnect.sh
+
 
 chmod +x /etc/openvpn/server/auth_vpn
 chmod +x /etc/openvpn/server/connect.sh
